@@ -1,3 +1,11 @@
+#수정사항
+
+OLDS/src/
+내부 .py 파일들 명, import 구문
+
+.sh 파일은 바꿀 게 없어보여서 안 바꿈
+
+
 # OLDS
 
 [Towards Understanding Omission in Dialogue Summarization](https://arxiv.org/abs/2211.07145) by Yicheng Zou, Kaitao Song, Xu Tan, Zhongkai Fu, Tao Gui, Qi Zhang, Dongsheng Li, is a study to understand **Omission Problem** in Dialogue Summarization. We present a definition of Omission information at the sentence level, and give an automatic labelling pipeline to obtain omission information from the omission and its summarization, and our collected dataset is called **OLDS**. We introduce different solutions to address omission detection and how to utilize omission information to improve model performance.

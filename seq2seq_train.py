@@ -94,7 +94,8 @@ def train(args, logger, accelerator, tokenizer=None, model=None, dataset=None, s
     data_collator = DataCollatorForSeq2Seq(
         tokenizer,
         model=model,
-        pad_to_multiple_of=8 if accelerator.use_fp16 else None,
+        #pad_to_multiple_of=8 if accelerator.use_fp16 else None, #아래로 수정
+        pad_to_multiple_of=8 if accelerator.mixed_precision == "fp16" else None,
     )
 
     train_dataloader = DataLoader(

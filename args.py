@@ -16,26 +16,28 @@ def parse_args():
     parser.add_argument("-do_test", type=str2bool, default=False)
     parser.add_argument("-do_predict", type=str2bool, default=False)
     parser.add_argument("-do_process", type=str2bool, default=False)
-    parser.add_argument("-do_process_train", type=str2bool, default=False)
+    parser.add_argument("-do_process_train", type=str2bool, default=True)
     parser.add_argument("-do_edit_train", type=str2bool, default=False)
     parser.add_argument("-do_edit_test", type=str2bool, default=False)
     parser.add_argument("-seed", type=int, default=42)
-    parser.add_argument("-output_dir", type=str, default='models/cnndm')
-    parser.add_argument("-result_dir", type=str, default='results/cnndm')
-    parser.add_argument("-log_file", type=str, default='logs/cnndm.log')
+    parser.add_argument("-output_dir", type=str, default='models/tweetsumm') #data
+    parser.add_argument("-result_dir", type=str, default='results/tweetsumm') #data
+    parser.add_argument("-log_file", type=str, default='logs/tweetsumm.log') #data
 
     # seq2seq dataset args
-    parser.add_argument("-dataset", type=str, default='cnndm')
+    parser.add_argument("-dataset", type=str, default='data/tweetsumm') #data
     parser.add_argument("-max_source_length", type=int, default=1024)
     parser.add_argument("-max_target_length", type=int, default=128)
     parser.add_argument("-preprocessing_num_workers", type=int, default=1)
     parser.add_argument("-prefix", type=str, default="")
-    parser.add_argument("-save_path", type=str, default='data/samsum')
+    parser.add_argument("-save_path", type=str, default='data/tweetsumm') #data
 
     # omission dataset args
     parser.add_argument("-data_split_size", type=int, default=10)
     parser.add_argument("-domain", type=str, default='all',
-        choices=["bart_large", "bart_base", "t5_base", "t5_small", "baseline", "pegasus", "all"]
+        '''choices=["bart_large", "bart_base", "t5_base", "t5_small", "baseline", "pegasus", "all"]'''
+        #위 코드를 아래로 수정
+        choices=["bart_base", "t5_base", "t5_small", "baseline", "pegasus", "all"]
     )
     ### # 1: full dial; 2: omission + rest; 3: omission + oracle rest + rest
     parser.add_argument("-post_edit_split_num", type=int, default=2, choices=[1, 2, 3])
@@ -46,7 +48,7 @@ def parse_args():
     parser.add_argument("-confidence_ratio", type=float, default=None)
     
     # model args
-    parser.add_argument("-model", type=str, default='facebook/bart-large-cnn')
+    parser.add_argument("-model", type=str, default='facebook/bart-base') #수정
     parser.add_argument("-checkpoint", type=str, default='')
     parser.add_argument("-baseline", type=str2bool, default=False)
     parser.add_argument("-num_labels", type=int, default=3)

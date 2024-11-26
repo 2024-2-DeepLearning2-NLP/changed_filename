@@ -96,7 +96,7 @@ class DetectionModel(nn.Module):
             self.classifier = nn.Sequential(
                 nn.Linear(self.config.hidden_size, self.config.hidden_size),
                 nn.Tanh(),
-                nn.Dropout(self.config.hidden_dropout_prob),
+                nn.Dropout(self.config.dropout),
                 nn.Linear(self.config.hidden_size, self.num_labels)
             )
         else:
@@ -129,12 +129,32 @@ class DetectionModel(nn.Module):
             cp = torch.load(checkpoint, map_location=lambda storage, loc: storage)
             self.load_state_dict(cp, strict=True)
 
-    def _init_weights(self, module):
+    '''def _init_weights(self, module):
         """Initialize the weights"""
         if isinstance(module, nn.Linear):
             # Slightly different from the TF version which uses truncated_normal for initialization
             # cf https://github.com/pytorch/pytorch/pull/5617
             module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+            if module.bias is not None:
+                module.bias.data.zero_()
+        elif isinstance(module, nn.Embedding):
+            module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+            if module.padding_idx is not None:
+                module.weight.data[module.padding_idx].zero_()
+        elif isinstance(module, nn.LayerNorm):
+            module.bias.data.zero_()
+            module.weight.data.fill_(1.0)'''
+    #위의 함수를 아래로 수정        
+    def _init_weights(self, module):
+        """Initialize the weights"""
+        if isinstance(module, nn.Linear):
+            # Slightly different from the TF version which uses truncated_normal for initialization
+            # cf https://github.com/pytorch/pytorch/pull/5617
+            if hasattr(self.config, 'initializer_range'):
+                module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+            else:
+                module.weight.data.normal_(mean=0.0, std=0.02)
+            # module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)  # 원래 얘만 있었음
             if module.bias is not None:
                 module.bias.data.zero_()
         elif isinstance(module, nn.Embedding):

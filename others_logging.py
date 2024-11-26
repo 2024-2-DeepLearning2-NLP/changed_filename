@@ -1,9 +1,14 @@
+import os #추가
 import logging
 import datasets
 import transformers
 
 
 def get_logger(log_file, accelerator):
+    log_dir = os.path.dirname(log_file) #로그파일 자동 추가
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+
     logger = logging.getLogger()
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",

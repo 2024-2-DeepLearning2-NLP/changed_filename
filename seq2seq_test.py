@@ -41,7 +41,8 @@ def test(args, logger, accelerator, tokenizer=None, model=None, dataset=None):
     data_collator = DataCollatorForSeq2Seq(
         tokenizer,
         model=model,
-        pad_to_multiple_of=8 if accelerator.use_fp16 else None,
+        #pad_to_multiple_of=8 if accelerator.use_fp16 else None,
+        pad_to_multiple_of=8 if accelerator.mixed_precision == "fp16" else None,
     )
 
     eval_dataloader = DataLoader(dataset, collate_fn=data_collator, batch_size=args.per_device_eval_batch_size)

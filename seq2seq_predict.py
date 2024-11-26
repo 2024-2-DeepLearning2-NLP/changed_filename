@@ -9,6 +9,7 @@ from transformers import (
     AutoTokenizer,
     AutoModelForSeq2SeqLM
 )
+import os #수정
 
 
 def predict(args, logger, accelerator, tokenizer=None, model=None, dataset=None):
@@ -39,7 +40,8 @@ def predict(args, logger, accelerator, tokenizer=None, model=None, dataset=None)
     data_collator = DataCollatorForSeq2Seq(
         tokenizer,
         model=model,
-        pad_to_multiple_of=8 if accelerator.use_fp16 else None,
+        #pad_to_multiple_of=8 if accelerator.use_fp16 else None,
+        pad_to_multiple_of=8 if accelerator.mixed_precision == "fp16" else None,
     )
 
     eval_dataloader = DataLoader(dataset, collate_fn=data_collator, batch_size=args.per_device_eval_batch_size)
@@ -77,6 +79,11 @@ def predict(args, logger, accelerator, tokenizer=None, model=None, dataset=None)
         "return_dict_in_generate": True,
         "output_scores": True
     }
+
+    #아래 3줄 경로 확인하고 생성
+    output_dir = args.result_dir
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     f = open(args.result_dir + "/output.txt", "w")
     results = []

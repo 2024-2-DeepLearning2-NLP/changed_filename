@@ -15,7 +15,7 @@ seq2seq_train.py 수정
 
 args.py 수정
 
-
+seq2seq_test.py 수정
 
 # OLDS
 

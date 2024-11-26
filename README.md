@@ -5,6 +5,14 @@ OLDS/src/
 
 .sh 파일은 바꿀 게 없어보여서 안 바꿈
 
+------
+11-26 10:45
+others_logging.py 수정
+models_detection.py 수정
+seq2seq_train.py 수정
+args.py 수정
+
+
 
 # OLDS
 

@@ -131,7 +131,9 @@ def predict(args, logger, accelerator, tokenizer=None, model=None, dataset=None)
                 dialogue = decoded_inputs[idx].replace('\r\n', '\n').split('\n')
                 dialogue = '\n\t'.join([str(i+1) + " : " + sent for i, sent in enumerate(dialogue)])
                 summary = decoded_labels[idx].replace('\n', " ")
-                f.write("dialogue: \n\t%s\nsummary: \n\t%s\n\n" % (dialogue, summary))
+                #f.write("dialogue: \n\t%s\nsummary: \n\t%s\n\n" % (dialogue, summary))
+                #아래로 수정함
+                f.write("dialogue: \n\t%s\nsummary: \n\t%s\n\n" % (dialogue.encode("ascii", "ignore").decode(), summary.encode("ascii", "ignore").decode()))
                 output_result = []
                 for i in range(args.num_beams):
                     f.write("beam %d:\t%.4f\t%s\n" % (i+1,

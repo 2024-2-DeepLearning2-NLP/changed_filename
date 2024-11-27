@@ -37,7 +37,7 @@ def parse_args():
     parser.add_argument("-domain", type=str, default='all',
         #choices=["bart_large", "bart_base", "t5_base", "t5_small", "baseline", "pegasus", "all"]
         #위 코드를 아래로 수정
-        choices=["bart_base", "t5_base", "t5_small", "baseline", "pegasus", "all"]
+        choices=["bart_base", "t5_small", "baseline", "all"]
     )
     ### # 1: full dial; 2: omission + rest; 3: omission + oracle rest + rest
     parser.add_argument("-post_edit_split_num", type=int, default=2, choices=[1, 2, 3])
@@ -48,7 +48,7 @@ def parse_args():
     parser.add_argument("-confidence_ratio", type=float, default=None)
     
     # model args
-    parser.add_argument("-model", type=str, default='google-t5/t5-small') #수정
+    parser.add_argument("-model", type=str, default='facebook/bart-base') #수정
     parser.add_argument("-checkpoint", type=str, default='')
     parser.add_argument("-baseline", type=str2bool, default=False)
     parser.add_argument("-num_labels", type=int, default=3)

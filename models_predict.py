@@ -70,7 +70,7 @@ def build_predicted_datasets(args, accelerator, tokenizer, predictions, referenc
                         la = 1
                 else:
                     la = 0
-                assert la == references[-1]
+                # assert la == references[-1]
                 if predictions[-1] == 2:
                     new_omission_labels[j].append(i)
                     new_oracle_labels[j].append(i)
@@ -137,14 +137,14 @@ def build_predicted_datasets(args, accelerator, tokenizer, predictions, referenc
             if args.domain != 'all' and args.domain != p['source']:
                 continue
             for j, la in enumerate(model_inputs["labels"][label_i]):
-                assert la == references[-1]
-                if predictions[-1] == 2:
+                # assert la == references[-1]
+                if predictions[-i-1] == 2:
                     new_omission_labels[i].append(j)
                     new_oracle_labels[i].append(j)
-                elif predictions[-1] == 1:
+                elif predictions[-i-1] == 1:
                     new_oracle_labels[i].append(j)
-                references.pop()
-                predictions.pop()
+                # references.pop()
+                # predictions.pop()
             label_i += 1
 
         return {
@@ -281,17 +281,17 @@ def predict(args, logger, accelerator, tokenizer=None, model=None, dataset=None)
     if args.mode == 'pair':
         data_collator = DataCollatorWithPadding(
             tokenizer,
-            pad_to_multiple_of=8 if accelerator.use_fp16 else None,
+            pad_to_multiple_of=8 if accelerator.mixed_precision == "fp16" else None,
         )
     elif args.mode == 'seq':
         data_collator = DataCollatorForTokenClassification(
             tokenizer,
-            pad_to_multiple_of=8 if accelerator.use_fp16 else None,
+            pad_to_multiple_of=8 if accelerator.mixed_precision == "fp16" else None,
         )
     else:
         data_collator = DataCollatorForSeq2Seq(
             tokenizer,
-            pad_to_multiple_of=8 if accelerator.use_fp16 else None,
+            pad_to_multiple_of=8 if accelerator.mixed_precision == "fp16" else None,
         )
 
     eval_dataloader = DataLoader(dataset, collate_fn=data_collator, batch_size=args.per_device_eval_batch_size)

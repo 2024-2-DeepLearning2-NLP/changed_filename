@@ -96,7 +96,7 @@ class DetectionModel(nn.Module):
             self.classifier = nn.Sequential(
                 nn.Linear(self.config.hidden_size, self.config.hidden_size),
                 nn.Tanh(),
-                nn.Dropout(self.config.dropout),
+                nn.Dropout(self.config.hidden_dropout_prob),
                 nn.Linear(self.config.hidden_size, self.num_labels)
             )
         else:

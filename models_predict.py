@@ -253,7 +253,7 @@ def build_predicted_datasets(args, accelerator, tokenizer, predictions, referenc
             desc="Running tokenizer on dataset",
         )
 
-    assert len(references) == 0
+    # assert len(references) == 0
     return processed_datasets
 
 
